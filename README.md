@@ -1,0 +1,112 @@
+NBA Player Style DNA: An Analysis of MVP Evolution
+This project analyzes the statistical "DNA" of some of the NBA's most valuable players from the last two decades. By leveraging machine learning and data visualization techniques, it maps out the playing styles of these athletes, identifies distinct archetypes, and visualizes the evolution of their game over their careers.
+
+The core idea is to take high-dimensional player statistics for each season and project them down into a 2D space. This allows us to visually plot and compare players and their career trajectories in an intuitive way.
+
+Features
+Data-Driven Player Selection: Easily define a list of players to analyze (the default is the last 15 NBA MVPs).
+
+Official NBA Stats: Fetches comprehensive per-100-possession data directly from the official NBA stats API (nba_api).
+
+Advanced Dimensionality Reduction: Uses UMAP (umap-learn) to create meaningful 2D representations of player styles from complex, high-dimensional stats.
+
+Playstyle Clustering: Applies K-Means clustering to group player-seasons into distinct archetypes (e.g., "Scoring Guard," "All-Around Big," "Defensive Anchor").
+
+Interactive Visualizations: Generates rich, interactive plots using Plotly to explore the data:
+
+A UMAP Scatter Plot that maps every player-season, color-coded by cluster.
+
+Individual Career Trajectory Plots that trace the evolution of each player's style from year to year.
+
+How It Works
+The project follows a multi-step pipeline to transform raw stats into insightful visualizations:
+
+Data Collection: The script begins by fetching the career statistics for each player in the player_names_of_interest list. It uses the nba_api to retrieve detailed per-100-possessions data for every season of a player's career. This normalization is crucial for comparing players across different eras and paces of play.
+
+Data Preprocessing:
+
+Feature Selection: A set of key statistical features (FGM, AST, STL, USG_PCT, etc.) is chosen to define a player's style.
+
+Filtering: Low-activity seasons (e.g., based on games played) are filtered out to ensure the analysis is based on significant data.
+
+Imputation & Scaling: Missing values are handled using a mean imputer (SimpleImputer), and all features are standardized using StandardScaler. This ensures each statistic contributes equally to the analysis.
+
+Dimensionality Reduction with UMAP: This is the core of the project. UMAP (Uniform Manifold Approximation and Projection) is a powerful algorithm that takes the high-dimensional scaled stats and creates a 2D "map." On this map, players with similar statistical profiles for a given season appear close together, while those with different styles are placed further apart.
+
+Clustering with K-Means: After creating the 2D embedding, K-Means clustering is applied to the UMAP coordinates. This algorithm groups the points into a predefined number of clusters, helping to identify and label common playstyle archetypes present in the data.
+
+Visualization: Plotly is used to render the final results, providing tooltips with detailed stats for each point on the graphs.
+
+Setup and Usage
+To run this analysis yourself, follow these steps.
+
+Prerequisites
+Python 3.x
+
+Jupyter Notebook or any environment that can run Python scripts.
+
+Installation
+Install all the required libraries using pip. You can install them one by one or create a requirements.txt file with the following content and run pip install -r requirements.txt.
+
+nba_api
+pandas
+numpy
+scikit-learn
+umap-learn
+plotly
+kaleido
+
+You can also install them directly with this command:
+
+pip install nba_api pandas numpy scikit-learn umap-learn plotly kaleido
+
+Note: kaleido is used by Plotly to export static images of the graphs.
+
+Running the Code
+Clone the repository or download the Python script/notebook.
+
+Open the notebook/script in your environment of choice (e.g., Jupyter Lab, VS Code).
+
+Execute the cells in order from top to bottom.
+
+The script will print progress updates to the console as it fetches data and performs computations. The final output will be a series of interactive Plotly graphs displayed directly in the notebook.
+
+Customization
+You can easily adapt this project to analyze different players or tweak the model parameters.
+
+Analyze Different Players: The simplest change is to modify the player_names_of_interest list in Cell 3. Add or remove any NBA player's full name. The script will automatically find their ID and fetch their data.
+
+player_names_of_interest = [
+    "Michael Jordan",
+    "Larry Bird",
+    "Magic Johnson",
+    "Trae Young",
+    "Luka Dončić"
+]
+
+Adjust Features: You can change the stats used for the analysis by modifying the potential_features list in Cell 5.
+
+Change Number of Clusters: To see more or fewer playstyle archetypes, adjust the n_clusters variable in Cell 7.
+
+Example Visualizations
+Below are descriptions of the plots generated by the script. You can save the interactive .html files or static images from Plotly and embed them here.
+
+1. Clustered Player Style Map
+This scatter plot shows all player-seasons on the 2D UMAP projection. Each point represents a single season from a player's career.
+
+Axes: The UMAP1 and UMAP2 axes represent the learned style dimensions.
+
+Color: Points are colored based on their assigned K-Means cluster, representing a specific playstyle archetype.
+
+Hover: Hovering over a point reveals the player's name, season, and the raw stats for that year.
+
+(Placeholder for your UMAP scatter plot image)
+
+2. Career Style Evolution
+These line plots trace the journey of a single player over their career on the style map.
+
+Path: The line connects a player's seasons chronologically, showing how their game changed over time. Did they become more of a scorer? A playmaker?
+
+Markers: Each point on the line is a season, labeled with the year.
+
+(Placeholder for an example career trajectory plot, e.g., LeBron James)
